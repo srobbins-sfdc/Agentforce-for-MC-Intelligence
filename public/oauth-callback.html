@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Callback</title>
+    <style>
+        body {
+            font-family: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f3f3f3;
+        }
+        .callback-container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0176d3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error {
+            color: #c23934;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="callback-container">
+        <div class="spinner"></div>
+        <p id="status">Completing authentication...</p>
+        <p id="error" class="error" style="display: none;"></p>
+    </div>
+
+    <script>
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const state = urlParams.get('state');
+            const error = urlParams.get('error');
+            const errorDescription = urlParams.get('error_description');
+            
+            // Check for OAuth error
+            if (error) {
+                document.getElementById('status').textContent = 'Authentication failed';
+                document.getElementById('error').textContent = errorDescription || error;
+                document.getElementById('error').style.display = 'block';
+                
+                // Notify parent window of error
+                if (window.opener) {
+                    window.opener.postMessage({
+                        type: 'OAUTH_ERROR',
+                        error: errorDescription || error
+                    }, window.location.origin);
+                }
+                return;
+            }
+            
+            // Validate state parameter
+            const storedState = sessionStorage.getItem('oauth_state');
+            if (!state || state !== storedState) {
+                document.getElementById('status').textContent = 'Authentication failed';
+                document.getElementById('error').textContent = 'Invalid state parameter';
+                document.getElementById('error').style.display = 'block';
+                
+                if (window.opener) {
+                    window.opener.postMessage({
+                        type: 'OAUTH_ERROR',
+                        error: 'Invalid state parameter'
+                    }, window.location.origin);
+                }
+                return;
+            }
+            
+            // Exchange code for access token
+            if (code) {
+                exchangeCodeForToken(code);
+            } else {
+                document.getElementById('status').textContent = 'Authentication failed';
+                document.getElementById('error').textContent = 'No authorization code received';
+                document.getElementById('error').style.display = 'block';
+                
+                if (window.opener) {
+                    window.opener.postMessage({
+                        type: 'OAUTH_ERROR',
+                        error: 'No authorization code received'
+                    }, window.location.origin);
+                }
+            }
+            
+            async function exchangeCodeForToken(authCode) {
+                try {
+                    // Call server endpoint to exchange code for token
+                    const response = await fetch('/api/oauth/token', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ code: authCode })
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.message || 'Token exchange failed');
+                    }
+                    
+                    const tokenData = await response.json();
+                    
+                    document.getElementById('status').textContent = 'Authentication successful!';
+                    
+                    // Send success message to parent window
+                    if (window.opener) {
+                        window.opener.postMessage({
+                            type: 'OAUTH_SUCCESS',
+                            access_token: tokenData.access_token,
+                            refresh_token: tokenData.refresh_token,
+                            instance_url: tokenData.instance_url
+                        }, window.location.origin);
+                    }
+                    
+                    // Clean up stored state
+                    sessionStorage.removeItem('oauth_state');
+                    
+                } catch (error) {
+                    console.error('Token exchange error:', error);
+                    
+                    document.getElementById('status').textContent = 'Authentication failed';
+                    document.getElementById('error').textContent = error.message;
+                    document.getElementById('error').style.display = 'block';
+                    
+                    if (window.opener) {
+                        window.opener.postMessage({
+                            type: 'OAUTH_ERROR',
+                            error: error.message
+                        }, window.location.origin);
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
+

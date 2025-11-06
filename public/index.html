@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentforce Chat Widget</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="chat-widget" class="chat-widget">
+        <div class="chat-header">
+            <div class="header-content">
+                <div class="agent-info">
+                    <div class="agent-avatar">
+                        <img src="https://image.s4.sfmc-content.com/lib/fe8f1574726d077d7d/m/1/Agentforce-Icon.png" width="32" height="32" alt="Agentforce Icon">
+                    </div>
+                    <div class="agent-details">
+                        <div class="agent-name-container">
+                            <span class="agent-name">Insights Powered by</span>
+                            <img src="https://image.s4.sfmc-content.com/lib/fe8f1574726d077d7d/m/1/Agentforce.png" height="20" alt="Agentforce" style="margin-left: 8px; vertical-align: middle;">
+                        </div>
+                        <span class="agent-status">Online</span>
+                    </div>
+                </div>
+                <button id="minimize-btn" class="minimize-btn" aria-label="Minimize chat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 13H5v-2h14v2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <div class="welcome-screen" id="welcome-screen">
+                <div class="welcome-content">
+                    <div class="welcome-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3>Agentforce Assistant</h3>
+                    <div id="connection-status" class="connection-status">
+                        <span class="status-text">Authenticating...</span>
+                        <div class="status-spinner"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-conversation" id="chat-conversation" style="display: none;">
+                <!-- Messages will be added here dynamically -->
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                <span>Agent is typing</span>
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="chat-input-wrapper">
+                <textarea id="message-input" 
+                         class="message-input" 
+                         placeholder="Type your message..."
+                         rows="1"
+                         maxlength="2000"></textarea>
+                <button id="send-btn" class="send-btn" aria-label="Send message" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="error-modal" class="error-modal" style="display: none;">
+        <div class="error-content">
+            <h3>Connection Error</h3>
+            <p id="error-message">Unable to connect to Agentforce. Please check your configuration.</p>
+            <button id="error-close" class="error-close-btn">Close</button>
+        </div>
+    </div>
+    
+    <!-- Load marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
+    
+    <!-- Load application scripts -->
+    <script src="config.js"></script>
+    <script src="agentforce-api.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>
+

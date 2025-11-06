@@ -1,0 +1,69 @@
+{
+  "name": "MCI Agentforce Chat Widget",
+  "description": "Embeddable chat interface for Salesforce Agentforce agents in Marketing Cloud Intelligence dashboards",
+  "repository": "https://github.com/your-org/mci-agentforce-chat-widget",
+  "logo": "https://image.s4.sfmc-content.com/lib/fe8f1574726d077d7d/m/1/Agentforce-Icon.png",
+  "keywords": ["salesforce", "agentforce", "chat", "widget", "mci", "nodejs"],
+  "stack": "heroku-22",
+  "env": {
+    "NODE_ENV": {
+      "description": "Node environment",
+      "value": "production",
+      "required": true
+    },
+    "SALESFORCE_INSTANCE_URL": {
+      "description": "Your Salesforce org URL (e.g., https://yourorg.my.salesforce.com)",
+      "required": true
+    },
+    "SALESFORCE_CLIENT_ID": {
+      "description": "Connected App Client ID (Consumer Key) from Salesforce",
+      "required": true
+    },
+    "SALESFORCE_CLIENT_SECRET": {
+      "description": "Connected App Client Secret (Consumer Secret) from Salesforce",
+      "required": true
+    },
+    "SALESFORCE_AGENT_ID": {
+      "description": "Agentforce Agent ID (starts with 0Xx)",
+      "required": true
+    },
+    "SALESFORCE_API_VERSION": {
+      "description": "Salesforce API version",
+      "value": "v61.0",
+      "required": false
+    },
+    "CHAT_PRIMARY_COLOR": {
+      "description": "Primary color for the chat widget",
+      "value": "rgb(5, 19, 75)",
+      "required": false
+    },
+    "CHAT_HEADER_TITLE": {
+      "description": "Header title for the chat widget",
+      "value": "Insights Powered by",
+      "required": false
+    },
+    "CHAT_WELCOME_MESSAGE": {
+      "description": "Welcome message displayed to users",
+      "value": "Hello! I'm your Agentforce assistant. How can I help you today?",
+      "required": false
+    },
+    "DEBUG_MODE": {
+      "description": "Enable debug logging",
+      "value": "false",
+      "required": false
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "addons": []
+}
+

@@ -1,0 +1,124 @@
+# ============================================
+# MCI Agentforce Chat Widget - Environment Variables
+# ============================================
+# 
+# Copy this file to .env and fill in your values
+# Never commit .env to version control!
+#
+# ============================================
+
+# ============================================
+# SALESFORCE CONFIGURATION (REQUIRED)
+# ============================================
+
+# Your Salesforce org URL
+# Example: https://yourorg.my.salesforce.com
+# Find it: In Salesforce, click your profile picture → View Profile → Look at URL
+SALESFORCE_INSTANCE_URL=https://your-org.my.salesforce.com
+
+# Connected App Client ID (Consumer Key)
+# Find it: Setup → App Manager → Your Connected App → View → Consumer Key
+SALESFORCE_CLIENT_ID=YOUR_CLIENT_ID_HERE
+
+# Connected App Client Secret (Consumer Secret)
+# Find it: Setup → App Manager → Your Connected App → View → Click to reveal Consumer Secret
+SALESFORCE_CLIENT_SECRET=YOUR_CLIENT_SECRET_HERE
+
+# Agentforce Agent ID (starts with 0Xx)
+# Find it: Setup → Einstein → Agents → Your Agent → Look at URL for ID starting with 0Xx
+SALESFORCE_AGENT_ID=YOUR_AGENT_ID_HERE
+
+# ============================================
+# APPLICATION CONFIGURATION (OPTIONAL)
+# ============================================
+
+# Salesforce API Version
+# Default: v61.0
+# Available: v60.0, v61.0, v62.0, etc.
+SALESFORCE_API_VERSION=v61.0
+
+# Node Environment
+# Options: development, production
+# Default: production
+NODE_ENV=production
+
+# Server Port (for local development only)
+# Heroku will override this with its own PORT
+# Default: 3000
+PORT=3000
+
+# ============================================
+# UI CUSTOMIZATION (OPTIONAL)
+# ============================================
+
+# Primary color for the chat widget
+# Accepts: CSS color values (rgb, rgba, hex, color names)
+# Default: rgb(5, 19, 75)
+# Examples:
+#   - rgb(5, 19, 75)
+#   - #0176d3
+#   - blue
+CHAT_PRIMARY_COLOR=rgb(5, 19, 75)
+
+# Header title text
+# Default: Insights Powered by
+CHAT_HEADER_TITLE=Insights Powered by
+
+# Welcome message shown to users
+# Default: Hello! I'm your Agentforce assistant. How can I help you today?
+CHAT_WELCOME_MESSAGE=Hello! I'm your Agentforce assistant. How can I help you today?
+
+# ============================================
+# DEBUG & LOGGING (OPTIONAL)
+# ============================================
+
+# Enable debug mode for detailed logging
+# Options: true, false
+# Default: false
+# WARNING: Only enable in development, not production
+DEBUG_MODE=false
+
+# ============================================
+# HEROKU DEPLOYMENT EXAMPLE
+# ============================================
+#
+# To set these on Heroku, use:
+#
+# heroku config:set SALESFORCE_INSTANCE_URL=https://yourorg.my.salesforce.com
+# heroku config:set SALESFORCE_CLIENT_ID=your_client_id
+# heroku config:set SALESFORCE_CLIENT_SECRET=your_client_secret
+# heroku config:set SALESFORCE_AGENT_ID=your_agent_id
+# heroku config:set CHAT_PRIMARY_COLOR="rgb(5, 19, 75)"
+#
+# ============================================
+
+# ============================================
+# LOCAL DEVELOPMENT
+# ============================================
+#
+# For local development:
+#
+# 1. Copy this file to .env:
+#    cp ENV_TEMPLATE.txt .env
+#
+# 2. Fill in your values in .env
+#
+# 3. Run the application:
+#    npm start
+#
+# 4. Visit http://localhost:3000
+#
+# ============================================
+
+# ============================================
+# SECURITY NOTES
+# ============================================
+#
+# - NEVER commit .env to version control
+# - NEVER share your client secret
+# - Rotate credentials regularly
+# - Use environment-specific values
+# - Review access logs periodically
+#
+# ============================================
+
