@@ -68,8 +68,8 @@ Before deploying this application, you need:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-org/mci-agentforce-chat-widget.git
-cd mci-agentforce-chat-widget
+git clone https://github.com/srobbins-sfdc/Agentforce-for-MC-Intelligence.git
+cd Agentforce-for-MC-Intelligence
 ```
 
 ### 2. Install Dependencies

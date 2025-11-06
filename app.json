@@ -1,7 +1,7 @@
 {
   "name": "MCI Agentforce Chat Widget",
   "description": "Embeddable chat interface for Salesforce Agentforce agents in Marketing Cloud Intelligence dashboards",
-  "repository": "https://github.com/your-org/mci-agentforce-chat-widget",
+  "repository": "https://github.com/srobbins-sfdc/Agentforce-for-MC-Intelligence",
   "logo": "https://image.s4.sfmc-content.com/lib/fe8f1574726d077d7d/m/1/Agentforce-Icon.png",
   "keywords": ["salesforce", "agentforce", "chat", "widget", "mci", "nodejs"],
   "stack": "heroku-22",
